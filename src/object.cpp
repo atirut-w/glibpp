@@ -3,7 +3,7 @@
 
 using namespace GLib;
 
-void Object::connect(const char *signal, void (*handler)(), void *data)
+void Object::connect(const char *signal, Callback handler, void *data)
 {
-    g_signal_connect(object, signal, G_CALLBACK(handler), data);
+    g_signal_connect(object, signal, handler, data);
 }

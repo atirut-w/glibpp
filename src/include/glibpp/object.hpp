@@ -1,4 +1,5 @@
 #pragma once
+#include <glibpp/closure.hpp>
 
 namespace GLib
 {
@@ -6,6 +7,6 @@ namespace GLib
     {
     public:
         void *object;
-        void connect(const char *signal, void (*handler)(), void *data);
+        void connect(const char *signal, Callback handler, void *data);
     };
 }
