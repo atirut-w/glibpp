@@ -1,4 +1,4 @@
-add_library(glibpp src/glibpp.cpp)
+add_library(glibpp src/object.cpp src/application.cpp)
 target_include_directories(glibpp PUBLIC src/include)
 
 find_package(PkgConfig REQUIRED)
