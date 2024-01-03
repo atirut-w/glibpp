@@ -1,0 +1,1 @@
+#include <gobjectpp/object.hpp>
