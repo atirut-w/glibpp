@@ -2,7 +2,6 @@
 #include <map>
 #include <string>
 #include <any>
-#include <stdexcept>
 
 namespace GObject
 {
@@ -11,24 +10,20 @@ namespace GObject
     private:
         std::map<std::string, std::any> properties;
 
+        void assert_property(std::string);
+
     public:
         Object(std::map<std::string, std::any>);
 
         template <typename T>
         T get_property(std::string name)
         {
-            if (this->properties.find(name) == this->properties.end())
-            {
-                throw std::invalid_argument("Property `" + name + "` not found");
-            }
+            assert_property(name);
             return std::any_cast<T>(this->properties[name]);
         }
         void set_property(std::string name, std::any value)
         {
-            if (this->properties.find(name) == this->properties.end())
-            {
-                throw std::invalid_argument("Property `" + name + "` not found");
-            }
+            assert_property(name);
             this->properties[name] = value;
         }
     };
