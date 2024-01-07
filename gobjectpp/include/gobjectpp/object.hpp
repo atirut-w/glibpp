@@ -13,7 +13,7 @@ namespace GObject
 
     private:
         template <typename T>
-        void assert_property(std::string name)
+        void assert_property(const std::string &name)
         {
             if (properties.find(name) == properties.end())
             {
@@ -29,14 +29,14 @@ namespace GObject
         Object(std::map<std::string, std::any>);
 
         template <typename T>
-        T get_property(std::string name)
+        T get_property(const std::string &name)
         {
             assert_property<T>(name);
             return std::any_cast<T>(properties[name]);
         }
 
         template <typename T>
-        void set_property(std::string name, T value)
+        void set_property(const std::string &name, T value)
         {
             assert_property<T>(name);
             this->properties[name] = value;
