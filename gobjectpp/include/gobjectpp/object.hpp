@@ -8,9 +8,10 @@ namespace GObject
 {
     class Object
     {
-    private:
+    protected:
         std::map<std::string, std::any> properties;
 
+    private:
         template <typename T>
         void assert_property(std::string name)
         {
