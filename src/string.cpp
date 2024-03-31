@@ -1,4 +1,4 @@
-#include <glibpp/string.hpp>
+#include <glib.hpp>
 #include <cstring>
 
 #define ALLOCATE_STEP 128
