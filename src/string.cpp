@@ -3,9 +3,7 @@
 
 #define ALLOCATE_STEP 128
 
-using namespace GLib;
-
-String::String(const char *init)
+string::string(const char *init)
 {
     len = strlen(init);
     while (allocated < len + 1)
@@ -17,7 +15,7 @@ String::String(const char *init)
     memcpy(str, init, len + 1);
 }
 
-String::String(const String &other)
+string::string(const string &other)
 {
     len = other.len;
     allocated = other.allocated;
@@ -25,12 +23,12 @@ String::String(const String &other)
     memcpy(str, other.str, len + 1);
 }
 
-String::~String()
+string::~string()
 {
     delete[] str;
 }
 
-String &String::operator=(const String &other)
+string &string::operator=(const string &other)
 {
     if (this != &other)
     {
