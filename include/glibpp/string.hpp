@@ -12,5 +12,9 @@ namespace GLib
     public:
         String() = default;
         String(const char *str);
+        String(const String &other);
+        ~String();
+
+        String &operator=(const String &other);
     };
 }
