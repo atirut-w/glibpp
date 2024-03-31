@@ -6,7 +6,7 @@ class string
 private:
     char *str = nullptr;
     size_t len = 0;
-    size_t allocated = 0;
+    size_t allocated_len = 0;
 
 public:
     string() = default;
@@ -15,4 +15,7 @@ public:
     ~string();
 
     string &operator=(const string &other);
+
+    const char *get_data() const;
+    size_t get_length() const;
 };
