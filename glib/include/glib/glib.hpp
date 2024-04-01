@@ -8,40 +8,84 @@ namespace GLib
     {
     private:
         T *ptr = nullptr;
+        gint *refs = nullptr;
 
-        void cleanup()
+        void unref()
         {
-            if (ptr)
+            if (ptr && --(*refs) == 0)
+            {
                 delete ptr;
+                delete refs;
+                ptr = nullptr;
+                refs = nullptr;
+            }
         }
 
     public:
-        Pointer() = default;
-        Pointer(T *ptr) : ptr(ptr) {}
+        Pointer() : ptr(nullptr), refs(nullptr) {}
+        Pointer(T *ptr)
+        {
+            this->ptr = ptr;
+            if (this->ptr != nullptr)
+            {
+                refs = new gint(1);
+            }
+        }
 
-        gboolean operator!() { return !ptr; }
+        Pointer(const Pointer &other)
+        {
+            ptr = other.ptr;
+            refs = other.refs;
+            if (ptr != nullptr)
+            {
+                (*refs)++;
+            }
+        }
 
-        // "There is no copying in Ba Sing Se"
-        Pointer(const Pointer &other) = delete;
-        Pointer &operator=(const Pointer &other) = delete;
+        Pointer &operator=(const Pointer &other)
+        {
+            if (this != &other)
+            {
+                unref();
+                ptr = other.ptr;
+                refs = other.refs;
+                if (ptr != nullptr)
+                {
+                    (*refs)++;
+                }
+            }
+            return *this;
+        }
 
         Pointer(Pointer &&other)
         {
             ptr = other.ptr;
+            refs = other.refs;
             other.ptr = nullptr;
+            other.refs = nullptr;
         }
 
-        void operator=(Pointer &&other)
+        Pointer &operator=(Pointer &&other)
         {
-            cleanup();
-            ptr = other.ptr;
-            other.ptr = nullptr;
+            if (this != &other)
+            {
+                unref();
+                ptr = other.ptr;
+                refs = other.refs;
+                other.ptr = nullptr;
+                other.refs = nullptr;
+            }
+            return *this;
         }
 
-        T *operator->() { return ptr; }
-        T &operator*() { return *ptr; }
+        ~Pointer()
+        {
+            unref();
+        }
 
-        ~Pointer() { cleanup(); }
+        operator bool() const { return ptr != nullptr; }
+        T *operator->() const { return ptr; }
+        T &operator*() const { return *ptr; }
     };
 
     class FileStream
