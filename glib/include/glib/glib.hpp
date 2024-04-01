@@ -51,8 +51,8 @@ namespace GLib
         void *stream = nullptr;
 
     public:
-        static FileStream *open(gint fd, string mode);
-        static FileStream *open(string path, string mode);
+        static Pointer<FileStream> open(gint fd, string mode);
+        static Pointer<FileStream> open(string path, string mode);
         ~FileStream();
 
         int puts(string str);
