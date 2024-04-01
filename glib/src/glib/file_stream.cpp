@@ -36,3 +36,8 @@ FileStream::~FileStream()
         fclose((FILE *)stream);
     }
 }
+
+int FileStream::puts(string str)
+{
+    return fputs((char *)str.get_data(), (FILE *)stream);
+}

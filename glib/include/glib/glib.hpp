@@ -13,5 +13,7 @@ namespace GLib
         static FileStream *open(gint fd, string mode);
         static FileStream *open(string path, string mode);
         ~FileStream();
+
+        int puts(string str);
     };
 }
