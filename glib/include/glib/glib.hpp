@@ -10,6 +10,7 @@ namespace GLib
         void *stream = nullptr;
 
     public:
+        static FileStream *open(gint fd, string mode);
         static FileStream *open(string path, string mode);
         ~FileStream();
     };

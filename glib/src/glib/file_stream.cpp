@@ -3,6 +3,19 @@
 
 using namespace GLib;
 
+FileStream *FileStream::open(gint fd, string mode)
+{
+    FileStream *fs = new FileStream();
+    fs->stream = fdopen(fd, (char *)mode.get_data());
+
+    if (fs->stream == nullptr)
+    {
+        delete fs;
+        return nullptr;
+    }
+    return fs;
+}
+
 FileStream *FileStream::open(string path, string mode)
 {
     FileStream *fs = new FileStream();
