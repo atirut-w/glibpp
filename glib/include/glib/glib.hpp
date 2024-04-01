@@ -19,6 +19,8 @@ namespace GLib
         Pointer() = default;
         Pointer(T *ptr) : ptr(ptr) {}
 
+        gboolean operator!() { return !ptr; }
+
         // "There is no copying in Ba Sing Se"
         Pointer(const Pointer &other) = delete;
         Pointer &operator=(const Pointer &other) = delete;
