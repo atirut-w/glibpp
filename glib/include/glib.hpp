@@ -1,10 +1,12 @@
 #pragma once
 #include <stddef.h>
 
+typedef unsigned char uint8;
+
 class string
 {
 private:
-    char *str = nullptr;
+    uint8 *str = nullptr;
     size_t len = 0;
     size_t allocated_len = 0;
 
@@ -16,6 +18,6 @@ public:
 
     string &operator=(const string &other);
 
-    const char *get_data() const;
+    const uint8 *get_data() const;
     size_t get_length() const;
 };
