@@ -1,14 +1,15 @@
 #pragma once
 
-typedef unsigned long size_t;
-typedef unsigned char uint8;
+typedef char gchar;
+typedef unsigned long gsize;
+typedef unsigned char guint8;
 
 class string
 {
 private:
-    uint8 *str = nullptr;
-    size_t len = 0;
-    size_t allocated_len = 0;
+    gchar *str = nullptr;
+    gsize len = 0;
+    gsize allocated_len = 0;
 
 public:
     string() = default;
@@ -18,6 +19,6 @@ public:
 
     string &operator=(const string &other);
 
-    const uint8 *get_data() const;
-    size_t get_length() const;
+    const guint8 *get_data() const;
+    gsize get_length() const;
 };
