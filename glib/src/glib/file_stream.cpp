@@ -37,5 +37,7 @@ FileStream::~FileStream()
 
 int FileStream::puts(string str)
 {
+    if (str == nullptr)
+        return 0;
     return fputs((char *)str.get_data(), (FILE *)stream);
 }

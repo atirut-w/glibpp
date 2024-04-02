@@ -5,6 +5,9 @@
 
 string::string(const char *init)
 {
+    if (init == nullptr)
+        return;
+    
     len = strlen(init);
     while (allocated_len < len + 1)
     {
@@ -19,24 +22,40 @@ string::string(const string &other)
 {
     len = other.len;
     allocated_len = other.allocated_len;
-    str = new gchar[allocated_len];
-    memcpy(str, other.str, len + 1);
+    
+    if (other.str != nullptr)
+    {
+        str = new gchar[allocated_len];
+        memcpy(str, other.str, len + 1);
+    }
+    else
+    {
+        str = nullptr;
+    }
 }
 
 string::~string()
 {
-    delete[] str;
+    if (str != nullptr)
+        delete[] str;
 }
 
 string &string::operator=(const string &other)
 {
     if (this != &other)
     {
-        delete[] str;
         len = other.len;
         allocated_len = other.allocated_len;
-        str = new gchar[allocated_len];
-        memcpy(str, other.str, len + 1);
+
+        if (other.str != nullptr)
+        {
+            str = new gchar[allocated_len];
+            memcpy(str, other.str, len + 1);
+        }
+        else
+        {
+            str = nullptr;
+        }
     }
     return *this;
 }
