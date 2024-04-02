@@ -74,5 +74,8 @@ namespace GLib
         operator gboolean() const { return ptr != nullptr; }
         T *operator->() const { return ptr; }
         T &operator*() const { return *ptr; }
+
+        gboolean operator==(const owned &other) const { return ptr == other.ptr; }
+        gboolean operator!=(const owned &other) const { return ptr != other.ptr; }
     };
 }
