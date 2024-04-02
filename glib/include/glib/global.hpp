@@ -21,8 +21,9 @@ public:
 
     string(const string &other);
     string &operator=(const string &other);
-    
+
     bool operator==(const string &other) const;
+    bool operator!=(const string &other) const;
 
     const guint8 *get_data() const;
     gsize get_length() const;
