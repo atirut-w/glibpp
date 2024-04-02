@@ -41,6 +41,15 @@ string &string::operator=(const string &other)
     return *this;
 }
 
+bool string::operator==(const string &other) const
+{
+    if (str == other.str)
+        return true;
+    if (len != other.len)
+        return false;
+    return memcmp(str, other.str, len) == 0;
+}
+
 const guint8 *string::get_data() const
 {
     return (const guint8 *)str;
