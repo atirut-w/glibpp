@@ -3,87 +3,115 @@
 
 namespace GLib
 {
+    // // Encapsulates unowned pointer
+    // template <typename T>
+    // class unowned
+    // {
+    // private:
+    //     T *ptr = nullptr;
+    //     gint *refs = nullptr;
+
+    //     void cleanup()
+    //     {
+    //         if (ptr != nullptr && --(*refs) == 0)
+    //         {
+    //             delete ptr;
+    //             delete refs;
+    //             ptr = nullptr;
+    //             refs = nullptr;
+    //         }
+    //     }
+        
+    // public:
+    //     unowned() : ptr(nullptr), refs(nullptr) {}
+    //     unowned(T *ptr)
+    //     {
+    //         this->ptr = ptr;
+    //         if (ptr != nullptr)
+    //             refs = new gint(1);
+    //     }
+
+    //     unowned(const unowned &other)
+    //     {
+    //         ptr = other.ptr;
+    //         refs = other.refs;
+    //         if (ptr != nullptr)
+    //             (*refs)++;
+    //     }
+
+    //     unowned &operator=(const unowned &other)
+    //     {
+    //         if (this != &other)
+    //         {
+    //             cleanup();
+    //             ptr = other.ptr;
+    //             refs = other.refs;
+    //             if (ptr != nullptr)
+    //                 (*refs)++;
+    //         }
+    //         return *this;
+    //     }
+
+    //     unowned(unowned &&other)
+    //     {
+    //         ptr = other.ptr;
+    //         refs = other.refs;
+    //         other.ptr = nullptr;
+    //         other.refs = nullptr;
+    //     }
+
+    //     void operator=(unowned &&other)
+    //     {
+    //         cleanup();
+    //         ptr = other.ptr;
+    //         refs = other.refs;
+    //         other.ptr = nullptr;
+    //         other.refs = nullptr;
+    //     }
+
+    //     ~unowned() { cleanup(); }
+
+    //     operator gboolean() const { return ptr != nullptr; }
+    //     T *operator->() const { return ptr; }
+    //     T &operator*() const { return *ptr; }
+    // };
+    
+    // Encapsulates owned pointer
     template <typename T>
-    class Pointer
+    class owned
     {
     private:
         T *ptr = nullptr;
-        gint *refs = nullptr;
 
-        void unref()
+        void cleanup()
         {
-            if (ptr && --(*refs) == 0)
-            {
+            if (ptr != nullptr)
                 delete ptr;
-                delete refs;
-                ptr = nullptr;
-                refs = nullptr;
-            }
         }
 
     public:
-        Pointer() : ptr(nullptr), refs(nullptr) {}
-        Pointer(T *ptr)
-        {
-            this->ptr = ptr;
-            if (this->ptr != nullptr)
-            {
-                refs = new gint(1);
-            }
-        }
+        owned() = default;
+        owned(T *ptr) : ptr(ptr) {}
 
-        Pointer(const Pointer &other)
+        owned(const owned &) = delete;
+        owned &operator=(const owned &) = delete;
+
+        owned(owned &&other)
         {
             ptr = other.ptr;
-            refs = other.refs;
-            if (ptr != nullptr)
-            {
-                (*refs)++;
-            }
-        }
-
-        Pointer &operator=(const Pointer &other)
-        {
-            if (this != &other)
-            {
-                unref();
-                ptr = other.ptr;
-                refs = other.refs;
-                if (ptr != nullptr)
-                {
-                    (*refs)++;
-                }
-            }
-            return *this;
-        }
-
-        Pointer(Pointer &&other)
-        {
-            ptr = other.ptr;
-            refs = other.refs;
             other.ptr = nullptr;
-            other.refs = nullptr;
         }
 
-        Pointer &operator=(Pointer &&other)
+        void operator=(owned &&other)
         {
-            if (this != &other)
-            {
-                unref();
-                ptr = other.ptr;
-                refs = other.refs;
-                other.ptr = nullptr;
-                other.refs = nullptr;
-            }
-            return *this;
+            cleanup();
+            ptr = other.ptr;
+            other.ptr = nullptr;
         }
 
-        ~Pointer()
-        {
-            unref();
-        }
+        ~owned() { cleanup(); }
 
-        operator bool() const { return ptr != nullptr; }
+        operator gboolean() const { return ptr != nullptr; }
         T *operator->() const { return ptr; }
         T &operator*() const { return *ptr; }
     };

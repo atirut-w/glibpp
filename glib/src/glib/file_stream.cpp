@@ -3,9 +3,9 @@
 
 using namespace GLib;
 
-Pointer<FileStream> FileStream::open(gint fd, string mode)
+owned<FileStream> FileStream::open(gint fd, string mode)
 {
-    Pointer<FileStream> fs = new FileStream();
+    owned<FileStream> fs = new FileStream();
     fs->stream = fdopen(fd, (char *)mode.get_data());
 
     if (fs->stream == nullptr)
@@ -15,9 +15,9 @@ Pointer<FileStream> FileStream::open(gint fd, string mode)
     return fs;
 }
 
-Pointer<FileStream> FileStream::open(string path, string mode)
+owned<FileStream> FileStream::open(string path, string mode)
 {
-    Pointer<FileStream> fs = new FileStream();
+    owned<FileStream> fs = new FileStream();
     fs->stream = fopen((char *)path.get_data(), (char *)mode.get_data());
 
     if (fs->stream == nullptr)
@@ -35,9 +35,12 @@ FileStream::~FileStream()
     }
 }
 
-string FileStream::gets(gchar *buffer, gsize len)
+string *FileStream::gets(gchar *buffer, gsize len)
 {
-    return fgets(buffer, len, (FILE *)stream);
+    gchar *result = fgets(buffer, len, (FILE *)stream);
+    if (!result)
+        return nullptr;
+    return new string(buffer);
 }
 
 int FileStream::puts(string str)

@@ -11,11 +11,11 @@ namespace GLib
         void *stream = nullptr;
 
     public:
-        static Pointer<FileStream> open(gint fd, string mode);
-        static Pointer<FileStream> open(string path, string mode);
+        static owned<FileStream> open(gint fd, string mode);
+        static owned<FileStream> open(string path, string mode);
         ~FileStream();
 
-        string gets(gchar *buffer, gsize len);
+        string *gets(gchar *buffer, gsize len);
         int puts(string str);
     };
 }
