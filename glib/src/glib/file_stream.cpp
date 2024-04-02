@@ -35,7 +35,7 @@ FileStream::~FileStream()
     }
 }
 
-string *FileStream::gets(gchar *buffer, gsize len)
+unowned<string> FileStream::gets(gchar *buffer, gsize len)
 {
     gchar *result = fgets(buffer, len, (FILE *)stream);
     if (!result)

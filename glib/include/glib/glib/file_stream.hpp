@@ -15,7 +15,7 @@ namespace GLib
         static owned<FileStream> open(string path, string mode);
         ~FileStream();
 
-        string *gets(gchar *buffer, gsize len);
+        unowned<string> gets(gchar *buffer, gsize len);
         int puts(string str);
     };
 }
