@@ -18,6 +18,12 @@ string::string(const char *init)
     memcpy(str, init, len + 1);
 }
 
+string::~string()
+{
+    if (str != nullptr)
+        delete[] str;
+}
+
 string::string(const string &other)
 {
     len = other.len;
@@ -32,12 +38,6 @@ string::string(const string &other)
     {
         str = nullptr;
     }
-}
-
-string::~string()
-{
-    if (str != nullptr)
-        delete[] str;
 }
 
 string &string::operator=(const string &other)

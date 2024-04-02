@@ -17,10 +17,11 @@ private:
 public:
     string() = default;
     string(const char *str);
-    string(const string &other);
     ~string();
 
+    string(const string &other);
     string &operator=(const string &other);
+    
     bool operator==(const string &other) const;
 
     const guint8 *get_data() const;
