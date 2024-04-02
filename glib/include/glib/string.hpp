@@ -6,7 +6,6 @@ class string
 private:
     gchar *str = nullptr;
     gsize len = 0;
-    gsize allocated_len = 0;
 
 public:
     string() = default;

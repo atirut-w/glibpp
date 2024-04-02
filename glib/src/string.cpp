@@ -9,12 +9,7 @@ string::string(const char *init)
         return;
     
     len = strlen(init);
-    while (allocated_len < len + 1)
-    {
-        allocated_len += ALLOCATE_STEP;
-    }
-
-    str = new gchar[allocated_len];
+    str = new gchar[len];
     memcpy(str, init, len + 1);
 }
 
@@ -27,11 +22,9 @@ string::~string()
 string::string(const string &other)
 {
     len = other.len;
-    allocated_len = other.allocated_len;
-    
     if (other.str != nullptr)
     {
-        str = new gchar[allocated_len];
+        str = new gchar[len];
         memcpy(str, other.str, len + 1);
     }
     else
@@ -45,11 +38,9 @@ string &string::operator=(const string &other)
     if (this != &other)
     {
         len = other.len;
-        allocated_len = other.allocated_len;
-
         if (other.str != nullptr)
         {
-            str = new gchar[allocated_len];
+            str = new gchar[len];
             memcpy(str, other.str, len + 1);
         }
         else
