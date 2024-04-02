@@ -35,9 +35,12 @@ FileStream::~FileStream()
     }
 }
 
-string FileStream::gets(gchar *buffer, gsize len)
+string *FileStream::gets(gchar *buffer, gsize len)
 {
-    return fgets(buffer, len, (FILE *)stream);
+    gchar *result = fgets(buffer, len, (FILE *)stream);
+    if (!result)
+        return nullptr;
+    return new string(buffer);
 }
 
 int FileStream::puts(string str)
