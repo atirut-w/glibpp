@@ -1,5 +1,5 @@
 #pragma once
-#include <glib/global.hpp>
+#include <glib/primitives.hpp>
 
 namespace GLib
 {
@@ -86,20 +86,5 @@ namespace GLib
         operator bool() const { return ptr != nullptr; }
         T *operator->() const { return ptr; }
         T &operator*() const { return *ptr; }
-    };
-
-    class FileStream
-    {
-    private:
-        FileStream() = default;
-        void *stream = nullptr;
-
-    public:
-        static Pointer<FileStream> open(gint fd, string mode);
-        static Pointer<FileStream> open(string path, string mode);
-        ~FileStream();
-
-        string gets(gchar *buffer, gsize len);
-        int puts(string str);
     };
 }
