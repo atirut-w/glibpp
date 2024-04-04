@@ -4,9 +4,9 @@
 namespace GLib
 {
     /// @brief The input stream
-    extern owned<FileStream> stdin;
+    extern FileStream stdin;
     /// @brief The output stream
-    extern owned<FileStream> stdout;
+    extern FileStream stdout;
     /// @brief The error stream
-    extern owned<FileStream> stderr;
+    extern FileStream stderr;
 }

@@ -3,28 +3,14 @@
 
 using namespace GLib;
 
-owned<FileStream> FileStream::open(gint fd, string mode)
+FileStream::FileStream(gint fd, string mode)
 {
-    owned<FileStream> fs = new FileStream();
-    fs->stream = fdopen(fd, (char *)mode.get_data());
-
-    if (fs->stream == nullptr)
-    {
-        return nullptr;
-    }
-    return fs;
+    stream = fdopen(fd, (char *)mode.get_data());
 }
 
-owned<FileStream> FileStream::open(string path, string mode)
+FileStream::FileStream(string path, string mode)
 {
-    owned<FileStream> fs = new FileStream();
-    fs->stream = fopen((char *)path.get_data(), (char *)mode.get_data());
-
-    if (fs->stream == nullptr)
-    {
-        return nullptr;
-    }
-    return fs;
+    stream = fopen((char *)path.get_data(), (char *)mode.get_data());
 }
 
 FileStream::~FileStream()
@@ -35,17 +21,12 @@ FileStream::~FileStream()
     }
 }
 
-unowned<string> FileStream::gets(gchar *buffer, gsize len)
+gchar *FileStream::gets(gchar *buffer, gsize len)
 {
-    gchar *result = fgets(buffer, len, (FILE *)stream);
-    if (!result)
-        return nullptr;
-    return new string(buffer);
+    return fgets(buffer, len, (FILE *)stream);
 }
 
 int FileStream::puts(string str)
 {
-    if (str == nullptr)
-        return 0;
     return fputs((char *)str.get_data(), (FILE *)stream);
 }

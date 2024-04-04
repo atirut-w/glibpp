@@ -1,6 +1,5 @@
 #pragma once
 #include <glib/string.hpp>
-#include <glib/glib/pointer.hpp>
 
 namespace GLib
 {
@@ -11,11 +10,11 @@ namespace GLib
         void *stream = nullptr;
 
     public:
-        static owned<FileStream> open(gint fd, string mode);
-        static owned<FileStream> open(string path, string mode);
+        FileStream(gint fd, string mode);
+        FileStream(string path, string mode);
         ~FileStream();
 
-        unowned<string> gets(gchar *buffer, gsize len);
+        gchar *gets(gchar *buffer, gsize len);
         int puts(string str);
     };
 }
