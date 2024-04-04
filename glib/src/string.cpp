@@ -11,7 +11,7 @@ void string::free()
     len = 0;
 }
 
-string::string(const char *init)
+string::string(const gchar *init)
 {
     if (init == nullptr)
         return;

@@ -11,7 +11,7 @@ private:
 
 public:
     string() = default;
-    string(const char *str);
+    string(const gchar *str);
     ~string();
 
     string(const string &other);
