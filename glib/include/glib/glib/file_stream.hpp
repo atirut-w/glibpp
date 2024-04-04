@@ -14,6 +14,8 @@ namespace GLib
         FileStream(string path, string mode);
         ~FileStream();
 
+        operator gboolean() const { return stream != nullptr; }
+
         gchar *gets(gchar *buffer, gsize len);
         int puts(string str);
     };
