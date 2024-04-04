@@ -14,6 +14,8 @@ public:
 
     string(const string &other);
     string &operator=(const string &other);
+    string(string &&other);
+    string &operator=(string &&other);
 
     bool operator==(const string &other) const;
     bool operator!=(const string &other) const;

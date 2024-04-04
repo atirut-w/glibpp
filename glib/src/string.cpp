@@ -54,6 +54,26 @@ string &string::operator=(const string &other)
     return *this;
 }
 
+string::string(string &&other)
+{
+    str = other.str;
+    len = other.len;
+    other.str = nullptr;
+    other.len = 0;
+}
+
+string &string::operator=(string &&other)
+{
+    if (str != nullptr)
+        delete[] str;
+    
+    str = other.str;
+    len = other.len;
+    other.str = nullptr;
+    other.len = 0;
+    return *this;
+}
+
 bool string::operator==(const string &other) const
 {
     if (str == other.str)
