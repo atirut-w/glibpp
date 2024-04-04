@@ -7,6 +7,8 @@ private:
     gchar *str = nullptr;
     gsize len = 0;
 
+    void free();
+
 public:
     string() = default;
     string(const char *str);

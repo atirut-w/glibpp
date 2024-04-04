@@ -3,6 +3,14 @@
 
 #define ALLOCATE_STEP 128
 
+void string::free()
+{
+    if (str != nullptr)
+        delete[] str;
+    str = nullptr;
+    len = 0;
+}
+
 string::string(const char *init)
 {
     if (init == nullptr)
@@ -15,8 +23,7 @@ string::string(const char *init)
 
 string::~string()
 {
-    if (str != nullptr)
-        delete[] str;
+    free();
 }
 
 string::string(const string &other)
@@ -37,8 +44,7 @@ string &string::operator=(const string &other)
 {
     if (this != &other)
     {
-        if (str != nullptr)
-            delete[] str;
+        free();
         
         len = other.len;
         if (other.str != nullptr)
@@ -64,8 +70,7 @@ string::string(string &&other)
 
 string &string::operator=(string &&other)
 {
-    if (str != nullptr)
-        delete[] str;
+    free();
     
     str = other.str;
     len = other.len;
