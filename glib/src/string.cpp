@@ -37,6 +37,9 @@ string &string::operator=(const string &other)
 {
     if (this != &other)
     {
+        if (str != nullptr)
+            delete[] str;
+        
         len = other.len;
         if (other.str != nullptr)
         {
