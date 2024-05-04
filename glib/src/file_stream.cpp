@@ -1,4 +1,4 @@
-#include <glib/glib/file_stream.hpp>
+#include <glib/file_stream.hpp>
 #include <stdio.h>
 
 using namespace GLib;

@@ -1,5 +1,5 @@
 #pragma once
-#include <glib/glib/file_stream.hpp>
+#include <glib/file_stream.hpp>
 
 namespace GLib
 {
