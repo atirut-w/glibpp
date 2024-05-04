@@ -17,7 +17,7 @@ string::string(const gchar *init)
         return;
     
     len = strlen(init);
-    str = new gchar[len];
+    str = new gchar[len + 1];
     memcpy(str, init, len + 1);
 }
 
@@ -31,7 +31,7 @@ string::string(const string &other)
     len = other.len;
     if (other.str != nullptr)
     {
-        str = new gchar[len];
+        str = new gchar[len + 1];
         memcpy(str, other.str, len + 1);
     }
     else
@@ -49,7 +49,7 @@ string &string::operator=(const string &other)
         len = other.len;
         if (other.str != nullptr)
         {
-            str = new gchar[len];
+            str = new gchar[len + 1];
             memcpy(str, other.str, len + 1);
         }
         else
