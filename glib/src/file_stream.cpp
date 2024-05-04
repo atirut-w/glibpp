@@ -7,7 +7,7 @@ FileStream GLib::stdin = FileStream(0, "r");
 FileStream GLib::stdout = FileStream(1, "w");
 FileStream GLib::stderr = FileStream(2, "w");
 
-FileStream::FileStream(gint fd, string mode)
+FileStream::FileStream(int fd, string mode)
 {
     stream = fdopen(fd, (char *)mode.get_data());
 }
@@ -25,7 +25,7 @@ FileStream::~FileStream()
     }
 }
 
-gchar *FileStream::gets(gchar *buffer, gsize len)
+char *FileStream::gets(char *buffer, size_t len)
 {
     return fgets(buffer, len, (FILE *)stream);
 }

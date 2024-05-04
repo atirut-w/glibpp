@@ -1,17 +1,18 @@
 #pragma once
-#include <glib/primitives.hpp>
+#include <cstddef>
+#include <cstdint>
 
 class string
 {
 private:
-    gchar *str = nullptr;
-    gsize len = 0;
+    char *str = nullptr;
+    size_t len = 0;
 
     void free();
 
 public:
     string() = default;
-    string(const gchar *str);
+    string(const char *str);
     ~string();
 
     string(const string &other);
@@ -22,6 +23,6 @@ public:
     bool operator==(const string &other) const;
     bool operator!=(const string &other) const;
 
-    const guint8 *get_data() const;
-    gsize get_length() const;
+    const uint8_t *get_data() const;
+    size_t get_length() const;
 };

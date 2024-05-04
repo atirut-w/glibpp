@@ -11,13 +11,13 @@ void string::free()
     len = 0;
 }
 
-string::string(const gchar *init)
+string::string(const char *init)
 {
     if (init == nullptr)
         return;
     
     len = strlen(init);
-    str = new gchar[len + 1];
+    str = new char[len + 1];
     memcpy(str, init, len + 1);
 }
 
@@ -31,7 +31,7 @@ string::string(const string &other)
     len = other.len;
     if (other.str != nullptr)
     {
-        str = new gchar[len + 1];
+        str = new char[len + 1];
         memcpy(str, other.str, len + 1);
     }
     else
@@ -49,7 +49,7 @@ string &string::operator=(const string &other)
         len = other.len;
         if (other.str != nullptr)
         {
-            str = new gchar[len + 1];
+            str = new char[len + 1];
             memcpy(str, other.str, len + 1);
         }
         else
@@ -97,12 +97,12 @@ bool string::operator!=(const string &other) const
     return memcmp(str, other.str, len) != 0;
 }
 
-const guint8 *string::get_data() const
+const uint8_t *string::get_data() const
 {
-    return (const guint8 *)str;
+    return (const uint8_t *)str;
 }
 
-gsize string::get_length() const
+size_t string::get_length() const
 {
     return len;
 }
