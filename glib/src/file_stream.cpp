@@ -3,6 +3,10 @@
 
 using namespace GLib;
 
+FileStream GLib::stdin = FileStream(0, "r");
+FileStream GLib::stdout = FileStream(1, "w");
+FileStream GLib::stderr = FileStream(2, "w");
+
 FileStream::FileStream(gint fd, string mode)
 {
     stream = fdopen(fd, (char *)mode.get_data());
