@@ -7,6 +7,15 @@ FileStream GLib::stdin = FileStream(0, "r");
 FileStream GLib::stdout = FileStream(1, "w");
 FileStream GLib::stderr = FileStream(2, "w");
 
+void FileStream::free()
+{
+    if (stream != nullptr)
+    {
+        fclose((FILE *)stream);
+        stream = nullptr;
+    }
+}
+
 FileStream::FileStream(int fd, string mode)
 {
     stream = fdopen(fd, (char *)mode.get_data());
@@ -19,10 +28,21 @@ FileStream::FileStream(string path, string mode)
 
 FileStream::~FileStream()
 {
-    if (stream != nullptr)
-    {
-        fclose((FILE *)stream);
-    }
+    free();
+}
+
+FileStream::FileStream(FileStream &&other)
+{
+    stream = other.stream;
+    other.stream = nullptr;
+}
+
+FileStream &FileStream::operator=(FileStream &&other)
+{
+    free();
+    stream = other.stream;
+    other.stream = nullptr;
+    return *this;
 }
 
 char *FileStream::gets(char *buffer, size_t len)

@@ -10,10 +10,17 @@ namespace GLib
         FileStream() = default;
         void *stream = nullptr;
 
+        void free();
+
     public:
         FileStream(int fd, string mode);
         FileStream(string path, string mode);
         ~FileStream();
+
+        FileStream(const FileStream &other) = delete;
+        FileStream &operator=(const FileStream &other) = delete;
+        FileStream(FileStream &&other);
+        FileStream &operator=(FileStream &&other);
 
         operator bool() const { return stream != nullptr; }
 
