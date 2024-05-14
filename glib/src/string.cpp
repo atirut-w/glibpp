@@ -1,6 +1,8 @@
 #include <glib.hpp>
 #include <cstring>
 
+using namespace GLib;
+
 #define ALLOCATE_STEP 128
 
 void string::free()
