@@ -21,11 +21,12 @@ namespace GLib
         string(string &&other);
         string &operator=(string &&other);
 
+        const uint8 *get_data() const;
+        size get_length() const;
+
         bool operator==(const string &other) const;
         bool operator!=(const string &other) const;
 
-        const uint8 *get_data() const;
-        size get_length() const;
         uint hash() const;
     };
 }

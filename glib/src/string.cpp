@@ -81,6 +81,16 @@ string &string::operator=(string &&other)
     return *this;
 }
 
+const uint8 *string::get_data() const
+{
+    return (const uint8 *)str;
+}
+
+size_t string::get_length() const
+{
+    return len;
+}
+
 bool string::operator==(const string &other) const
 {
     if (str == other.str)
@@ -97,16 +107,6 @@ bool string::operator!=(const string &other) const
     if (len != other.len)
         return true;
     return memcmp(str, other.str, len) != 0;
-}
-
-const uint8 *string::get_data() const
-{
-    return (const uint8 *)str;
-}
-
-size_t string::get_length() const
-{
-    return len;
 }
 
 uint string::hash() const
