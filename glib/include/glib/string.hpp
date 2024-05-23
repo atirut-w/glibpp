@@ -26,5 +26,6 @@ namespace GLib
 
         const uint8 *get_data() const;
         size get_length() const;
+        uint hash() const;
     };
 }

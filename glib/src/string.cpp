@@ -108,3 +108,14 @@ size_t string::get_length() const
 {
     return len;
 }
+
+uint string::hash() const
+{
+    const char *ptr = str;
+    size n = len;
+    uint h = 0;
+
+    while (n--)
+        h = (h << 5) - h + *ptr++;
+    return h;
+}

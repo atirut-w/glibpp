@@ -1,5 +1,7 @@
 #pragma once
 
+typedef unsigned int uint;
+
 typedef signed char int8;
 typedef unsigned char uint8;
 
