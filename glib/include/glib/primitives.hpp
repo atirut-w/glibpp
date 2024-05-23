@@ -1,30 +1,16 @@
 #pragma once
 
-typedef char gchar;
-typedef short gshort;
-typedef long glong;
-typedef int gint;
-typedef gint gboolean;
+typedef signed char int8;
+typedef unsigned char uint8;
 
-typedef unsigned char guchar;
-typedef unsigned short gushort;
-typedef unsigned long gulong;
-typedef unsigned int guint;
+typedef signed short int16;
+typedef unsigned short uint16;
 
-typedef float gfloat;
-typedef double gdouble;
+typedef signed int int32;
+typedef unsigned int uint32;
 
-typedef signed char gint8;
-typedef unsigned char guint8;
+typedef signed long int64;
+typedef unsigned long uint64;
 
-typedef signed short gint16;
-typedef unsigned short guint16;
-
-typedef signed int gint32;
-typedef unsigned int guint32;
-
-typedef signed long gint64;
-typedef unsigned long guint64;
-
-typedef signed long gssize;
-typedef unsigned long gsize;
+typedef signed long ssize;
+typedef unsigned long size;

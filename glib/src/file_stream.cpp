@@ -45,7 +45,7 @@ FileStream &FileStream::operator=(FileStream &&other)
     return *this;
 }
 
-char *FileStream::gets(char *buffer, gsize len)
+char *FileStream::gets(char *buffer, size len)
 {
     return fgets(buffer, len, (FILE *)stream);
 }

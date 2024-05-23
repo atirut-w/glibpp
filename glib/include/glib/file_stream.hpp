@@ -13,7 +13,7 @@ namespace GLib
         void free();
 
     public:
-        FileStream(gint fd, string mode);
+        FileStream(int fd, string mode);
         FileStream(string path, string mode);
         ~FileStream();
 
@@ -24,8 +24,8 @@ namespace GLib
 
         operator bool() const { return stream != nullptr; }
 
-        gchar *gets(gchar *buffer, gsize len);
-        gint puts(string str);
+        char *gets(char *buffer, size len);
+        int puts(string str);
     };
 
     /// @brief The input stream

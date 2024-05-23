@@ -6,8 +6,8 @@ namespace GLib
     class string
     {
     private:
-        gchar *str = nullptr;
-        gsize len = 0;
+        char *str = nullptr;
+        size len = 0;
 
         void free();
 
@@ -24,7 +24,7 @@ namespace GLib
         bool operator==(const string &other) const;
         bool operator!=(const string &other) const;
 
-        const guint8 *get_data() const;
-        gsize get_length() const;
+        const uint8 *get_data() const;
+        size get_length() const;
     };
 }
