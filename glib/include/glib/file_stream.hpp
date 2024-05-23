@@ -1,6 +1,7 @@
 #pragma once
 #include <glib/string.hpp>
 #include <glib/primitives.hpp>
+#include <cstdarg>
 
 namespace GLib
 {
@@ -24,8 +25,12 @@ namespace GLib
 
         operator bool() const { return stream != nullptr; }
 
+        int flush();
         char *gets(char *buffer, size len);
+        void printf(const string &format, ...);
         int puts(string str);
+        int scanf(const string &format, ...);
+        void vprintf(const string &format, va_list args);
     };
 
     /// @brief The input stream
