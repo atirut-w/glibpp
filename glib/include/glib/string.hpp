@@ -1,14 +1,13 @@
 #pragma once
-#include <cstddef>
-#include <cstdint>
+#include <glib/primitives.hpp>
 
 namespace GLib
 {
     class string
     {
     private:
-        char *str = nullptr;
-        size_t len = 0;
+        gchar *str = nullptr;
+        gsize len = 0;
 
         void free();
 
@@ -25,7 +24,7 @@ namespace GLib
         bool operator==(const string &other) const;
         bool operator!=(const string &other) const;
 
-        const uint8_t *get_data() const;
-        size_t get_length() const;
+        const guint8 *get_data() const;
+        gsize get_length() const;
     };
 }

@@ -99,9 +99,9 @@ bool string::operator!=(const string &other) const
     return memcmp(str, other.str, len) != 0;
 }
 
-const uint8_t *string::get_data() const
+const guint8 *string::get_data() const
 {
-    return (const uint8_t *)str;
+    return (const guint8 *)str;
 }
 
 size_t string::get_length() const

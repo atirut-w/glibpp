@@ -1,6 +1,6 @@
 #pragma once
 #include <glib/string.hpp>
-#include <cstddef>
+#include <glib/primitives.hpp>
 
 namespace GLib
 {
@@ -13,7 +13,7 @@ namespace GLib
         void free();
 
     public:
-        FileStream(int fd, string mode);
+        FileStream(gint fd, string mode);
         FileStream(string path, string mode);
         ~FileStream();
 
@@ -24,8 +24,8 @@ namespace GLib
 
         operator bool() const { return stream != nullptr; }
 
-        char *gets(char *buffer, size_t len);
-        int puts(string str);
+        gchar *gets(gchar *buffer, gsize len);
+        gint puts(string str);
     };
 
     /// @brief The input stream
