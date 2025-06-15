@@ -1,4 +1,4 @@
 add_library(glibpp
-    src/dummy.cpp
+    src/string.cpp
 )
 target_include_directories(glibpp PUBLIC include)
