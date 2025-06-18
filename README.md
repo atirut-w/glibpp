@@ -1,2 +1,2 @@
 # GLib++
-A proof-of-concept of reimplementing GLib as a C++ library.
+A proof-of-concept of recreating the GLib API in C++.
