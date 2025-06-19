@@ -5,21 +5,6 @@
 
 namespace GLib {
 
-void String::expand(std::size_t size) {
-  allocated_len = len + size + 1;
-  char *new_str = new char[allocated_len];
-  std::memcpy(new_str, str, len);
-  new_str[len] = '\0';
-  delete[] str;
-  str = new_str;
-}
-
-void String::maybe_expand(std::size_t size) {
-  if (len + size >= allocated_len) {
-    expand(size);
-  }
-}
-
 String::String(const char *init) {
   if (init == nullptr || *init == '\0') {
     str = new char[1];
@@ -127,6 +112,21 @@ String &String::truncate(std::size_t new_len) {
   len = min(len, new_len);
   str[len] = '\0';
   return *this;
+}
+
+void String::expand(std::size_t size) {
+  allocated_len = len + size + 1;
+  char *new_str = new char[allocated_len];
+  std::memcpy(new_str, str, len);
+  new_str[len] = '\0';
+  delete[] str;
+  str = new_str;
+}
+
+void String::maybe_expand(std::size_t size) {
+  if (len + size >= allocated_len) {
+    expand(size);
+  }
 }
 
 } // namespace GLib
