@@ -45,10 +45,8 @@ String::String(const String &other) {
 String::~String() { delete[] str; }
 
 String &String::operator=(const char *rval) {
-  std::size_t new_len = std::strlen(rval);
-  maybe_expand(new_len - len);
-  std::strcpy(str, rval);
-  len = new_len;
+  truncate(0);
+  append(rval);
   return *this;
 }
 
