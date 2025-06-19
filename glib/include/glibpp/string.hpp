@@ -10,10 +10,9 @@ class String {
 
 public:
   String(const char *init);
+  String(const String &other);
   ~String();
 
-  // TODO: Implement copy
-  String(const String &other) = delete;
   String &operator=(const String &other) = delete;
   String &operator=(const char *rval);
 };

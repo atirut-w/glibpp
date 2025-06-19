@@ -18,6 +18,14 @@ String::String(const char *init) {
   }
 }
 
+String::String(const String &other) {
+  len = other.len;
+  allocated_len = other.allocated_len;
+  str = new char[allocated_len];
+  // We can't just strcpy because other.str might have embedded null characters
+  std::memcpy(str, other.str, len + 1);
+}
+
 String::~String() { delete[] str; }
 
 String &String::operator=(const char *rval) {
