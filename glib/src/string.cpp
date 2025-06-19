@@ -51,10 +51,75 @@ String &String::operator=(const char *rval) {
 }
 
 String &String::append(const char *val) {
-  std::size_t val_len = std::strlen(val);
-  maybe_expand(val_len);
-  std::strcpy(str + len, val);
-  len += val_len;
+  insert_len(-1, val, -1);
+  return *this;
+}
+
+String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
+  if (val == nullptr && len != 0) {
+    return *this;
+  }
+
+  if (len == 0) {
+    return *this;
+  }
+
+  std::size_t len_unsigned, pos_unsigned;
+
+  if (len == -1) {
+    len_unsigned = std::strlen(val);
+  } else {
+    len_unsigned = len;
+  }
+
+  if (pos == -1) {
+    pos_unsigned = this->len;
+  } else {
+    pos_unsigned = pos;
+    if (pos_unsigned > this->len) {
+      return *this;
+    }
+  }
+
+  if (val >= str && val <= str + this->len) {
+    std::size_t offset = val - str;
+    std::size_t precount = 0;
+
+    maybe_expand(len_unsigned);
+    val = str + offset;
+
+    if (pos_unsigned < this->len) {
+      std::memmove(str + pos_unsigned + len_unsigned, str + pos_unsigned,
+                   this->len - pos_unsigned);
+    }
+
+    if (offset < pos_unsigned) {
+      precount = min(len_unsigned, pos_unsigned - offset);
+      std::memcpy(str + pos_unsigned, val, precount);
+    }
+
+    if (len_unsigned > precount) {
+      std::memcpy(str + pos_unsigned + precount, val + precount + len_unsigned,
+                  len_unsigned - precount);
+    }
+  } else {
+    maybe_expand(len_unsigned);
+
+    if (pos_unsigned < this->len) {
+      std::memmove(str + pos_unsigned + len_unsigned, str + pos_unsigned,
+                   this->len - pos_unsigned);
+    }
+
+    if (len_unsigned == 1) {
+      str[pos_unsigned] = *val;
+    } else {
+      std::memcpy(str + pos_unsigned, val, len_unsigned);
+    }
+  }
+
+  this->len += len_unsigned;
+  str[this->len] = '\0';
+
   return *this;
 }
 
