@@ -8,6 +8,9 @@ class String {
   std::size_t len;
   std::size_t allocated_len;
 
+  void expand(std::size_t size);
+  void maybe_expand(std::size_t size);
+
 public:
   String(const char *init);
   String(const String &other);
@@ -15,6 +18,9 @@ public:
 
   String &operator=(const String &other) = delete;
   String &operator=(const char *rval);
+
+  String &append(const char *val);
+  String &truncate(std::size_t new_len);
 };
 
 } // namespace GLib
