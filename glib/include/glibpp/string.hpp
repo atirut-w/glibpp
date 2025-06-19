@@ -12,9 +12,10 @@ public:
   String(const char *init);
   ~String();
 
-  // TODO: Implement copy and assignment
+  // TODO: Implement copy
   String(const String &other) = delete;
   String &operator=(const String &other) = delete;
+  String &operator=(const char *rval);
 };
 
 } // namespace GLib

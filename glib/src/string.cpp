@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <cstring>
 #include <glibpp/string.hpp>
 
@@ -18,5 +19,17 @@ String::String(const char *init) {
 }
 
 String::~String() { delete[] str; }
+
+String &String::operator=(const char *rval) {
+  std::size_t new_len = std::strlen(rval);
+  if (new_len >= allocated_len) {
+    delete[] str;
+    allocated_len = new_len + 1; // +1 for null terminator
+    str = new char[allocated_len];
+  }
+  std::strcpy(str, rval);
+  len = new_len;
+  return *this;
+}
 
 } // namespace GLib
