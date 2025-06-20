@@ -32,9 +32,29 @@ String::String(const String &other) {
 String::~String() { delete[] str; }
 
 String &String::operator=(const char *rval) {
-  truncate(0);
-  append(rval);
-  return *this;
+  return assign(rval);
+}
+
+String String::operator+(const char *val) const {
+  String result(*this);
+  result.append(val);
+  return result;
+}
+
+String &String::operator+=(const char *val) {
+  return append(val);
+}
+
+String &String::operator+=(char c) {
+  return append_c(c);
+}
+
+bool String::operator==(const String &other) const {
+  return equal(other);
+}
+
+bool String::operator!=(const String &other) const {
+  return !equal(other);
 }
 
 String &String::append(const char *val) {
@@ -73,6 +93,12 @@ String &String::append_vprintf(const char *format, std::va_list args) {
   len += size;
   str[len] = '\0';
 
+  return *this;
+}
+
+String &String::assign(const char *rval) {
+  truncate(0);
+  append(rval);
   return *this;
 }
 

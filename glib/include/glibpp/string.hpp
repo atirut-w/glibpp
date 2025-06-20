@@ -16,11 +16,19 @@ struct String {
   String &operator=(const String &other) = delete;
   String &operator=(const char *rval);
 
+  String operator+(const char *val) const;
+  String &operator+=(const char *val);
+  String &operator+=(char c);
+
+  bool operator==(const String &other) const;
+  bool operator!=(const String &other) const;
+
   String &append(const char *val);
   String &append_c(char c);
   String &append_len(const char *val, std::size_t len);
   String &append_printf(const char *format, ...);
   String &append_vprintf(const char *format, std::va_list args);
+  String &assign(const char *rval);
   bool equal(const String &other) const;
   String &insert(std::size_t pos, const char *val);
   String &insert_c(std::size_t pos, char c);
