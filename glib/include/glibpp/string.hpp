@@ -16,6 +16,8 @@ struct String {
   String &operator=(const char *rval);
 
   String &append(const char *val);
+  String &append_c(char c);
+  String &append_len(const char *val, std::size_t len);
   String &insert(std::size_t pos, const char *val);
   String &insert_c(std::size_t pos, char c);
   String &insert_len(std::size_t pos, const char *val, std::size_t len);

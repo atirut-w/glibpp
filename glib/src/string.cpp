@@ -36,8 +36,15 @@ String &String::operator=(const char *rval) {
 }
 
 String &String::append(const char *val) {
-  insert_len(-1, val, -1);
-  return *this;
+  return insert_len(-1, val, -1);
+}
+
+String &String::append_c(char c) {
+  return insert_c(-1, c);
+}
+
+String &String::append_len(const char *val, std::size_t len) {
+  return insert_len(-1, val, len);
 }
 
 String &String::insert(std::size_t pos, const char *val) {
