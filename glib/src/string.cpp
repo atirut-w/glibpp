@@ -40,6 +40,34 @@ String &String::append(const char *val) {
   return *this;
 }
 
+String &String::insert(std::size_t pos, const char *val) {
+  return insert_len(pos, val, -1);
+}
+
+String &String::insert_c(std::size_t pos, char c) {
+  maybe_expand(1);
+
+  std::size_t pos_unsigned;
+  if (pos == -1) {
+    pos_unsigned = this->len;
+  } else {
+    pos_unsigned = pos;
+    if (pos_unsigned > this->len) {
+      return *this;
+    }
+  }
+
+  if (pos_unsigned < this->len) {
+    std::memmove(str + pos_unsigned + 1, str + pos_unsigned,
+                 this->len - pos_unsigned);
+  }
+
+  str[pos_unsigned] = c;
+  this->len += 1;
+  str[this->len] = '\0';
+  return *this;
+}
+
 String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
   if (val == nullptr && len != 0) {
     return *this;
