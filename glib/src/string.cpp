@@ -76,6 +76,27 @@ String &String::append_vprintf(const char *format, std::va_list args) {
   return *this;
 }
 
+bool String::equal(const String &other) const {
+  char *p = str;
+  char *q = other.str;
+  std::size_t i = len;
+
+  if (len != other.len) {
+    return false;
+  }
+
+  while (i) {
+    if (*p != *q) {
+      return false;
+    }
+    p++;
+    q++;
+    i--;
+  }
+
+  return true;
+}
+
 String &String::insert(std::size_t pos, const char *val) {
   return insert_len(pos, val, -1);
 }

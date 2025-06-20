@@ -21,6 +21,7 @@ struct String {
   String &append_len(const char *val, std::size_t len);
   String &append_printf(const char *format, ...);
   String &append_vprintf(const char *format, std::va_list args);
+  bool equal(const String &other) const;
   String &insert(std::size_t pos, const char *val);
   String &insert_c(std::size_t pos, char c);
   String &insert_len(std::size_t pos, const char *val, std::size_t len);
