@@ -1,5 +1,7 @@
 #include "glibpp/math.hpp"
+#include <cstdarg>
 #include <cstddef>
+#include <cstdio>
 #include <cstring>
 #include <glibpp/string.hpp>
 
@@ -45,6 +47,33 @@ String &String::append_c(char c) {
 
 String &String::append_len(const char *val, std::size_t len) {
   return insert_len(-1, val, len);
+}
+
+String &String::append_printf(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  String &result = append_vprintf(format, args);
+  va_end(args);
+  return result;
+}
+
+String &String::append_vprintf(const char *format, std::va_list args) {
+  va_list args_copy;
+  va_copy(args_copy, args);
+  int size = std::vsnprintf(nullptr, 0, format, args_copy);
+  va_end(args_copy);
+  if (size < 0) {
+    // TODO: Throw?
+    return *this;
+  }
+
+  maybe_expand(size);
+
+  std::vsnprintf(str + len, size + 1, format, args);
+  len += size;
+  str[len] = '\0';
+
+  return *this;
 }
 
 String &String::insert(std::size_t pos, const char *val) {
@@ -141,6 +170,15 @@ String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
   str[this->len] = '\0';
 
   return *this;
+}
+
+String &String::printf(const char *format, ...) {
+  truncate(0);
+  va_list args;
+  va_start(args, format);
+  String &result = append_vprintf(format, args);
+  va_end(args);
+  return result;
 }
 
 String &String::truncate(std::size_t new_len) {
