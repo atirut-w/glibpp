@@ -30,6 +30,7 @@ struct String {
   String &append_vprintf(const char *format, std::va_list args);
   String &assign(const char *rval);
   bool equal(const String &other) const;
+  unsigned int hash() const;
   String &insert(std::size_t pos, const char *val);
   String &insert_c(std::size_t pos, char c);
   String &insert_len(std::size_t pos, const char *val, std::size_t len);

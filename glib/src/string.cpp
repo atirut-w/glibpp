@@ -123,6 +123,18 @@ bool String::equal(const String &other) const {
   return true;
 }
 
+unsigned int String::hash() const {
+  const char *p = str;
+  std::size_t n = len;
+  unsigned int h = 0;
+
+  while (n--) {
+    h = (h << 5) - h + static_cast<unsigned char>(*p++);
+  }
+
+  return h;
+}
+
 String &String::insert(std::size_t pos, const char *val) {
   return insert_len(pos, val, -1);
 }
