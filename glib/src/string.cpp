@@ -65,7 +65,7 @@ String &String::append_c(char c) {
   return insert_c(-1, c);
 }
 
-String &String::append_len(const char *val, std::size_t len) {
+String &String::append_len(const char *val, size len) {
   return insert_len(-1, val, len);
 }
 
@@ -105,7 +105,7 @@ String &String::assign(const char *rval) {
 bool String::equal(const String &other) const {
   char *p = str;
   char *q = other.str;
-  std::size_t i = len;
+  size i = len;
 
   if (len != other.len) {
     return false;
@@ -125,7 +125,7 @@ bool String::equal(const String &other) const {
 
 unsigned int String::hash() const {
   const char *p = str;
-  std::size_t n = len;
+  size n = len;
   unsigned int h = 0;
 
   while (n--) {
@@ -135,14 +135,14 @@ unsigned int String::hash() const {
   return h;
 }
 
-String &String::insert(std::size_t pos, const char *val) {
+String &String::insert(size pos, const char *val) {
   return insert_len(pos, val, -1);
 }
 
-String &String::insert_c(std::size_t pos, char c) {
+String &String::insert_c(size pos, char c) {
   maybe_expand(1);
 
-  std::size_t pos_unsigned;
+  size pos_unsigned;
   if (pos == -1) {
     pos_unsigned = this->len;
   } else {
@@ -163,7 +163,7 @@ String &String::insert_c(std::size_t pos, char c) {
   return *this;
 }
 
-String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
+String &String::insert_len(size pos, const char *val, size len) {
   if (val == nullptr && len != 0) {
     return *this;
   }
@@ -172,7 +172,7 @@ String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
     return *this;
   }
 
-  std::size_t len_unsigned, pos_unsigned;
+  size len_unsigned, pos_unsigned;
 
   if (len == -1) {
     len_unsigned = std::strlen(val);
@@ -190,8 +190,8 @@ String &String::insert_len(std::size_t pos, const char *val, std::size_t len) {
   }
 
   if (val >= str && val <= str + this->len) {
-    std::size_t offset = val - str;
-    std::size_t precount = 0;
+    size offset = val - str;
+    size precount = 0;
 
     maybe_expand(len_unsigned);
     val = str + offset;
@@ -240,13 +240,13 @@ String &String::printf(const char *format, ...) {
   return result;
 }
 
-String &String::truncate(std::size_t new_len) {
+String &String::truncate(size new_len) {
   len = min(len, new_len);
   str[len] = '\0';
   return *this;
 }
 
-void String::expand(std::size_t size) {
+void String::expand(size size) {
   allocated_len = len + size + 1;
   char *new_str = new char[allocated_len];
   std::memcpy(new_str, str, len);
@@ -255,7 +255,7 @@ void String::expand(std::size_t size) {
   str = new_str;
 }
 
-void String::maybe_expand(std::size_t size) {
+void String::maybe_expand(size size) {
   if (len + size >= allocated_len) {
     expand(size);
   }
