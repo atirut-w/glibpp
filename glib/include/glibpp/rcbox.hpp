@@ -62,7 +62,6 @@ public:
       return nullptr;
     }
     T *data = control->data;
-    control->data = nullptr;
     if (control->ref_count.dec()) {
       delete control;
     }
@@ -136,7 +135,6 @@ public:
       return nullptr;
     }
     T *data = control->data;
-    control->data = nullptr;
     if (control->ref_count.dec()) {
       delete control;
     }
