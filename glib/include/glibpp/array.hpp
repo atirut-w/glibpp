@@ -1,4 +1,5 @@
 #pragma once
+#include <glibpp/config.h>
 #include <glibpp/refcount.hpp>
 #include <glibpp/types.hpp>
 
@@ -324,5 +325,7 @@ public:
     control->pdata[real_index] = data;
   }
 };
+
+using ByteArray = Array<uint8>;
 
 } // namespace GLib
