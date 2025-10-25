@@ -218,12 +218,13 @@ public:
   void set_size(uint length) {
     if (length > control->len) {
       maybe_expand(length - control->len);
+      for (uint i = control->len; i < length; ++i) {
+        control->pdata[i] = nullptr;
+      }
+      control->len = length;
+    } else if (length < control->len) {
+      remove_range(length, control->len - length);
     }
-
-    for (uint i = control->len; i < length; ++i) {
-      control->pdata[i] = nullptr;
-    }
-    control->len = length;
   }
 
   T *remove_index(uint index) {
