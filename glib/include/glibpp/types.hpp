@@ -7,4 +7,4 @@ using ushort = unsigned short;
 using uint = unsigned int;
 using ulong = unsigned long;
 
-}
+} // namespace GLib

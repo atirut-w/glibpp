@@ -21,4 +21,4 @@ public:
   bool compare(int val) { return count.get() == val; }
 };
 
-}
+} // namespace GLib

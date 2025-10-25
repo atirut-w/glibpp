@@ -55,13 +55,9 @@ public:
     return data;
   }
 
-  T &operator*() {
-    return *(control->data);
-  }
+  T &operator*() { return *(control->data); }
 
-  T *operator->() {
-    return control->data;
-  }
+  T *operator->() { return control->data; }
 };
 
 template <typename T> class AtomicRcBox {
@@ -119,13 +115,9 @@ public:
     return data;
   }
 
-  T &operator*() {
-    return *(control->data);
-  }
+  T &operator*() { return *(control->data); }
 
-  T *operator->() {
-    return control->data;
-  }
+  T *operator->() { return control->data; }
 };
 
 } // namespace GLib

@@ -167,7 +167,7 @@ template <typename T> class PtrArray {
         new_alloc *= 2;
       }
 
-      T **new_data = new T*[new_alloc];
+      T **new_data = new T *[new_alloc];
       for (uint i = 0; i < control->len; ++i) {
         new_data[i] = control->pdata[i];
       }
@@ -227,21 +227,13 @@ public:
     }
   }
 
-  T *remove_index(uint index) {
-    return remove_index(index, false, true);
-  }
+  T *remove_index(uint index) { return remove_index(index, false, true); }
 
-  T *remove_index_fast(uint index) {
-    return remove_index(index, true, true);
-  }
+  T *remove_index_fast(uint index) { return remove_index(index, true, true); }
 
-  T *steal_index(uint index) {
-    return remove_index(index, false, false);
-  }
+  T *steal_index(uint index) { return remove_index(index, false, false); }
 
-  T *steal_index_fast(uint index) {
-    return remove_index(index, true, false);
-  }
+  T *steal_index_fast(uint index) { return remove_index(index, true, false); }
 
   PtrArray &remove_range(uint index, uint length) {
     if (length == 0) {

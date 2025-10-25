@@ -24,4 +24,4 @@ using offset = int64;
 using intptr = signed long;
 using uintptr = unsigned long;
 
-}
+} // namespace GLib
