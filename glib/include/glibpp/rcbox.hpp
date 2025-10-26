@@ -1,6 +1,5 @@
 #pragma once
 #include <glibpp/refcount.hpp>
-#include <string.h>
 
 namespace GLib {
 
@@ -8,15 +7,18 @@ template <typename T> class RcBox {
   struct Control {
     RefCount ref_count;
     T *data = nullptr;
+
+    Control(T *data) : data(data) {}
+
+    ~Control() { delete data; }
   };
 
   Control *control = nullptr;
 
+  RcBox(const T &value) { control = new Control(new T(value)); }
+
 public:
-  RcBox() {
-    control = new Control();
-    control->data = new T();
-  }
+  RcBox() { control = new Control(new T()); }
 
   RcBox(const RcBox &other) {
     control = other.control;
@@ -26,7 +28,6 @@ public:
   RcBox &operator=(const RcBox &other) {
     if (this != &other) {
       if (control->ref_count.dec()) {
-        delete control->data;
         delete control;
       }
       control = other.control;
@@ -37,17 +38,11 @@ public:
 
   ~RcBox() {
     if (control->ref_count.dec()) {
-      delete control->data;
       delete control;
     }
   }
 
-  RcBox dup() const {
-    RcBox copy;
-    delete copy.control->data;
-    copy.control->data = new T(*control->data);
-    return copy;
-  }
+  RcBox dup() const { return RcBox(*control->data); }
 
   T *steal() {
     T *data = control->data;
@@ -64,15 +59,18 @@ template <typename T> class AtomicRcBox {
   struct Control {
     AtomicRefCount ref_count;
     T *data = nullptr;
+
+    Control(T *data) : data(data) {}
+
+    ~Control() { delete data; }
   };
 
   Control *control = nullptr;
 
+  AtomicRcBox(const T &value) { control = new Control(new T(value)); }
+
 public:
-  AtomicRcBox() {
-    control = new Control();
-    control->data = new T();
-  }
+  AtomicRcBox() { control = new Control(new T()); }
 
   AtomicRcBox(const AtomicRcBox &other) {
     control = other.control;
@@ -82,7 +80,6 @@ public:
   AtomicRcBox &operator=(const AtomicRcBox &other) {
     if (this != &other) {
       if (control->ref_count.dec()) {
-        delete control->data;
         delete control;
       }
       control = other.control;
@@ -93,25 +90,15 @@ public:
 
   ~AtomicRcBox() {
     if (control->ref_count.dec()) {
-      delete control->data;
       delete control;
     }
   }
 
-  AtomicRcBox dup() const {
-    AtomicRcBox copy;
-    delete copy.control->data;
-    copy.control->data = new T(*control->data);
-    return copy;
-  }
+  AtomicRcBox dup() const { return AtomicRcBox(*control->data); }
 
   T *steal() {
     T *data = control->data;
     control->data = nullptr;
-    if (control->ref_count.dec()) {
-      delete control;
-    }
-    control = nullptr;
     return data;
   }
 
