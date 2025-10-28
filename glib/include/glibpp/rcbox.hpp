@@ -1,4 +1,5 @@
 #pragma once
+#include <glibpp/mem.hpp>
 #include <glibpp/refcount.hpp>
 
 namespace GLib {
@@ -19,8 +20,7 @@ public:
     box.control = new Control();
 
     try {
-      // TODO: Use perfect forwarding
-      box.control->data = new T(args...);
+      box.control->data = new T(forward<Args>(args)...);
     } catch (...) {
       delete box.control;
       throw;
@@ -107,8 +107,7 @@ public:
     box.control = new Control();
 
     try {
-      // TODO: Use perfect forwarding
-      box.control->data = new T(args...);
+      box.control->data = new T(forward<Args>(args)...);
     } catch (...) {
       delete box.control;
       throw;
