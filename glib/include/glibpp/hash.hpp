@@ -32,15 +32,24 @@ template <> uint hash<double>(const double &v) {
 
 template <typename K, typename V> class HashTable {
   struct Control {
+    uint size;
+    uint mod;
+    uint mask;
+    uint nnodes;
+    uint noccupied;
+    uint have_big_keys : 1;
+    uint have_big_values : 1;
+    K *keys;
+    uint *hashes;
+    V *values;
     AtomicRefCount ref_count;
+    uintptr version;
   };
 
   Control *control;
 
 public:
-  HashTable() {
-    control = new Control();
-  }
+  HashTable() { control = new Control(); }
 
   HashTable(const HashTable &other) {
     control = other.control;
