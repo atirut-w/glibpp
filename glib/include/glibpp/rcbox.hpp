@@ -15,18 +15,17 @@ template <typename T> class RcBox {
 
 public:
   template <typename... Args> static RcBox make(Args &&...args) {
-    T *data = nullptr;
-
+    RcBox box;
+    box.control = new Control();
+    
     try {
       // TODO: Use perfect forwarding
-      data = new T(args...);
+      box.control->data = new T(args...);
     } catch (...) {
+      delete box.control;
       throw;
     }
 
-    RcBox box;
-    box.control = new Control();
-    box.control->data = data;
     return box;
   }
 
@@ -58,22 +57,21 @@ public:
   }
 
   RcBox dup() const {
-    T *data = nullptr;
+    RcBox box;
+    box.control = new Control();
 
     try {
-      data = new T(*control->data);
+      box.control->data = new T(*control->data);
     } catch (...) {
+      delete box.control;
       throw;
     }
 
-    RcBox box;
-    box.control = new Control();
-    box.control->data = data;
     return box;
   }
 
   T *steal() {
-    if (control && control->ref_count.get() == 1) {
+    if (control && control->ref_count.compare(1)) {
       T *data = control->data;
       delete control;
       control = nullptr;
@@ -100,18 +98,17 @@ template <typename T> class AtomicRcBox {
 
 public:
   template <typename... Args> static AtomicRcBox make(Args &&...args) {
-    T *data = nullptr;
-
+    AtomicRcBox box;
+    box.control = new Control();
+    
     try {
       // TODO: Use perfect forwarding
-      data = new T(args...);
+      box.control->data = new T(args...);
     } catch (...) {
+      delete box.control;
       throw;
     }
 
-    AtomicRcBox box;
-    box.control = new Control();
-    box.control->data = data;
     return box;
   }
 
@@ -143,22 +140,21 @@ public:
   }
 
   AtomicRcBox dup() const {
-    T *data = nullptr;
-
-    try {
-      data = new T(*control->data);
-    } catch (...) {
-      throw;
-    }
-
     AtomicRcBox box;
     box.control = new Control();
-    box.control->data = data;
+
+    try {
+      box.control->data = new T(*control->data);
+    } catch (...) {
+      delete box.control;
+      throw;
+    }
+    
     return box;
   }
 
   T *steal() {
-    if (control && control->ref_count.get() == 1) {
+    if (control && control->ref_count.compare(1)) {
       T *data = control->data;
       delete control;
       control = nullptr;
