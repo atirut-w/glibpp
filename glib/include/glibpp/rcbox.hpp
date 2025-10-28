@@ -7,47 +7,80 @@ template <typename T> class RcBox {
   struct Control {
     RefCount ref_count;
     T *data = nullptr;
-
-    Control(T *data) : data(data) {}
-
-    ~Control() { delete data; }
   };
 
   Control *control = nullptr;
 
-  RcBox(const T &value) { control = new Control(new T(value)); }
+  RcBox() = default;
 
 public:
-  RcBox() { control = new Control(new T()); }
+  template <typename... Args> static RcBox make(Args &&...args) {
+    T *data = nullptr;
 
-  RcBox(const RcBox &other) {
-    control = other.control;
-    control->ref_count.inc();
+    try {
+      // TODO: Use perfect forwarding
+      data = new T(args...);
+    } catch (...) {
+      throw;
+    }
+
+    RcBox box;
+    box.control = new Control();
+    box.control->data = data;
+    return box;
+  }
+
+  RcBox(const RcBox &other) : control(other.control) {
+    if (control) {
+      control->ref_count.inc();
+    }
   }
 
   RcBox &operator=(const RcBox &other) {
     if (this != &other) {
-      if (control->ref_count.dec()) {
+      if (control && control->ref_count.dec()) {
+        delete control->data;
         delete control;
       }
       control = other.control;
-      control->ref_count.inc();
+      if (control) {
+        control->ref_count.inc();
+      }
     }
     return *this;
   }
 
   ~RcBox() {
-    if (control->ref_count.dec()) {
+    if (control && control->ref_count.dec()) {
+      delete control->data;
       delete control;
     }
   }
 
-  RcBox dup() const { return RcBox(*control->data); }
+  RcBox dup() const {
+    T *data = nullptr;
+
+    try {
+      data = new T(*control->data);
+    } catch (...) {
+      throw;
+    }
+
+    RcBox box;
+    box.control = new Control();
+    box.control->data = data;
+    return box;
+  }
 
   T *steal() {
-    T *data = control->data;
-    control->data = nullptr;
-    return data;
+    if (control && control->ref_count.get() == 1) {
+      T *data = control->data;
+      delete control;
+      control = nullptr;
+      return data;
+    } else {
+      return nullptr;
+    }
   }
 
   T &operator*() { return *(control->data); }
@@ -59,47 +92,80 @@ template <typename T> class AtomicRcBox {
   struct Control {
     AtomicRefCount ref_count;
     T *data = nullptr;
-
-    Control(T *data) : data(data) {}
-
-    ~Control() { delete data; }
   };
 
   Control *control = nullptr;
 
-  AtomicRcBox(const T &value) { control = new Control(new T(value)); }
+  AtomicRcBox() = default;
 
 public:
-  AtomicRcBox() { control = new Control(new T()); }
+  template <typename... Args> static AtomicRcBox make(Args &&...args) {
+    T *data = nullptr;
 
-  AtomicRcBox(const AtomicRcBox &other) {
-    control = other.control;
-    control->ref_count.inc();
+    try {
+      // TODO: Use perfect forwarding
+      data = new T(args...);
+    } catch (...) {
+      throw;
+    }
+
+    AtomicRcBox box;
+    box.control = new Control();
+    box.control->data = data;
+    return box;
+  }
+
+  AtomicRcBox(const AtomicRcBox &other) : control(other.control) {
+    if (control) {
+      control->ref_count.inc();
+    }
   }
 
   AtomicRcBox &operator=(const AtomicRcBox &other) {
     if (this != &other) {
-      if (control->ref_count.dec()) {
+      if (control && control->ref_count.dec()) {
+        delete control->data;
         delete control;
       }
       control = other.control;
-      control->ref_count.inc();
+      if (control) {
+        control->ref_count.inc();
+      }
     }
     return *this;
   }
 
   ~AtomicRcBox() {
-    if (control->ref_count.dec()) {
+    if (control && control->ref_count.dec()) {
+      delete control->data;
       delete control;
     }
   }
 
-  AtomicRcBox dup() const { return AtomicRcBox(*control->data); }
+  AtomicRcBox dup() const {
+    T *data = nullptr;
+
+    try {
+      data = new T(*control->data);
+    } catch (...) {
+      throw;
+    }
+
+    AtomicRcBox box;
+    box.control = new Control();
+    box.control->data = data;
+    return box;
+  }
 
   T *steal() {
-    T *data = control->data;
-    control->data = nullptr;
-    return data;
+    if (control && control->ref_count.get() == 1) {
+      T *data = control->data;
+      delete control;
+      control = nullptr;
+      return data;
+    } else {
+      return nullptr;
+    }
   }
 
   T &operator*() { return *(control->data); }
