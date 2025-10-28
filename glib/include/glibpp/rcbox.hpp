@@ -49,6 +49,22 @@ public:
     return *this;
   }
 
+  RcBox(RcBox &&other) noexcept : control(other.control) {
+    other.control = nullptr;
+  }
+
+  RcBox &operator=(RcBox &&other) noexcept {
+    if (this != &other) {
+      if (control && control->ref_count.dec()) {
+        delete control->data;
+        delete control;
+      }
+      control = other.control;
+      other.control = nullptr;
+    }
+    return *this;
+  }
+
   ~RcBox() {
     if (control && control->ref_count.dec()) {
       delete control->data;
@@ -117,6 +133,22 @@ public:
       if (control) {
         control->ref_count.inc();
       }
+    }
+    return *this;
+  }
+
+  AtomicRcBox(AtomicRcBox &&other) noexcept : control(other.control) {
+    other.control = nullptr;
+  }
+
+  AtomicRcBox &operator=(AtomicRcBox &&other) noexcept {
+    if (this != &other) {
+      if (control && control->ref_count.dec()) {
+        delete control->data;
+        delete control;
+      }
+      control = other.control;
+      other.control = nullptr;
     }
     return *this;
   }
