@@ -1,5 +1,5 @@
 #pragma once
-#include <glibpp/config.hpp>x
+#include <glibpp/config.hpp>
 #include <glibpp/refcount.hpp>
 #include <glibpp/types.hpp>
 
