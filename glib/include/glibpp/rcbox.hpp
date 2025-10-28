@@ -17,7 +17,7 @@ public:
   template <typename... Args> static RcBox make(Args &&...args) {
     RcBox box;
     box.control = new Control();
-    
+
     try {
       // TODO: Use perfect forwarding
       box.control->data = new T(args...);
@@ -70,17 +70,6 @@ public:
     return box;
   }
 
-  T *steal() {
-    if (control && control->ref_count.compare(1)) {
-      T *data = control->data;
-      delete control;
-      control = nullptr;
-      return data;
-    } else {
-      return nullptr;
-    }
-  }
-
   T &operator*() { return *(control->data); }
 
   T *operator->() { return control->data; }
@@ -100,7 +89,7 @@ public:
   template <typename... Args> static AtomicRcBox make(Args &&...args) {
     AtomicRcBox box;
     box.control = new Control();
-    
+
     try {
       // TODO: Use perfect forwarding
       box.control->data = new T(args...);
@@ -149,19 +138,8 @@ public:
       delete box.control;
       throw;
     }
-    
-    return box;
-  }
 
-  T *steal() {
-    if (control && control->ref_count.compare(1)) {
-      T *data = control->data;
-      delete control;
-      control = nullptr;
-      return data;
-    } else {
-      return nullptr;
-    }
+    return box;
   }
 
   T &operator*() { return *(control->data); }
