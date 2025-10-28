@@ -7,6 +7,7 @@ class RefCount {
   int count = 1;
 
 public:
+  int get() const { return count; }
   void inc() { count++; }
   bool dec() { return --count == 0; }
   bool compare(int val) { return count == val; }
@@ -16,6 +17,7 @@ class AtomicRefCount {
   Atomic<int> count = 1;
 
 public:
+  int get() const { return count.get(); }
   void inc() { count.inc(); }
   bool dec() { return count.dec_and_test(); }
   bool compare(int val) { return count.get() == val; }
