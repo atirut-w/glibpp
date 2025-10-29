@@ -226,4 +226,6 @@ public:
   // TODO: Sort & binary search
 };
 
+using ByteArray = Array<uchar>;
+
 } // namespace GLib
