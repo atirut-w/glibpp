@@ -199,10 +199,10 @@ public:
       for (uint i = control->len; i < length; i++) {
         new (control->data + i) T();
       }
+      control->len = length;
     } else if (length < control->len) {
       remove_range(length, control->len - length);
     }
-    control->len = length;
 
     return *this;
   }
@@ -392,7 +392,7 @@ public:
     return new_array;
   }
 
-  void set_size(uint length) {
+  PtrArray &set_size(uint length) {
     if (length > control->len) {
       maybe_expand(length - control->len);
 
@@ -405,6 +405,7 @@ public:
     } else if (length < control->len) {
       remove_range(length, control->len - length);
     }
+    return *this;
   }
 
   void remove_index(uint index) { remove_range(index, 1); }
