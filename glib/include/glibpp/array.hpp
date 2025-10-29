@@ -26,7 +26,7 @@ template <typename T> class Array {
         want_alloc *= 2;
       }
 
-      T *new_data = static_cast<T *>(::operator new(sizeof(T) * want_alloc));
+      T *new_data = static_cast<T *>(::operator new[](sizeof(T) * want_alloc));
       uint i;
       try {
         for (i = 0; i < control->len; i++) {
@@ -36,14 +36,14 @@ template <typename T> class Array {
         for (uint j = 0; j < i; j++) {
           new_data[j].~T();
         }
-        ::operator delete(new_data);
+        ::operator delete[](new_data);
         throw;
       }
 
       for (uint j = 0; j < control->len; j++) {
         control->data[j].~T();
       }
-      ::operator delete(control->data);
+      ::operator delete[](control->data);
       control->data = new_data;
       control->capacity = want_alloc;
     }
@@ -79,7 +79,7 @@ public:
         for (uint i = 0; i < control->len; i++) {
           control->data[i].~T();
         }
-        ::operator delete(control->data);
+        ::operator delete[](control->data);
         delete control;
       }
       control = other.control;
@@ -98,7 +98,7 @@ public:
         for (uint i = 0; i < control->len; i++) {
           control->data[i].~T();
         }
-        ::operator delete(control->data);
+        ::operator delete[](control->data);
         delete control;
       }
       control = other.control;
@@ -112,7 +112,7 @@ public:
       for (uint i = 0; i < control->len; i++) {
         control->data[i].~T();
       }
-      ::operator delete(control->data);
+      ::operator delete[](control->data);
       delete control;
     }
   }
