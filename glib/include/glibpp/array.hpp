@@ -58,6 +58,14 @@ public:
     control->capacity = len;
   }
 
+  explicit Array(uint reserved) {
+    control = new Control();
+    
+    if (reserved) {
+      maybe_expand(reserved);
+    }
+  }
+
   Array(const Array &other) : control(other.control) {
     if (control) {
       control->refcount.inc();
