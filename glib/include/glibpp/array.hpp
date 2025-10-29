@@ -121,6 +121,10 @@ public:
   size len() const { return control->len; }
 
   T *steal(size &len) {
+    if (!control->refcount.compare(1)) {
+      return nullptr;
+    }
+
     T *data = control->data;
     len = control->len;
 
