@@ -224,6 +224,8 @@ public:
   }
 
   // TODO: Sort & binary search
+
+  T &operator[](uint index) { return control->data[index]; }
 };
 
 using ByteArray = Array<uchar>;
