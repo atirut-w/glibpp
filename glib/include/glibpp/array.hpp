@@ -51,6 +51,13 @@ template <typename T> class Array {
 public:
   Array() { control = new Control(); }
 
+  explicit Array(T *data, uint len) {
+    control = new Control();
+    control->data = data;
+    control->len = len;
+    control->capacity = len;
+  }
+
   Array(const Array &other) : control(other.control) {
     if (control) {
       control->refcount.inc();
