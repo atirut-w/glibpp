@@ -1,5 +1,6 @@
 #pragma once
 #include <glibpp/config.hpp>
+#include <glibpp/mem.hpp>
 #include <glibpp/refcount.hpp>
 #include <glibpp/types.hpp>
 
@@ -29,7 +30,7 @@ template <typename T> class Array {
       uint i;
       try {
         for (i = 0; i < control->len; i++) {
-          new (new_data + i) T(steal(control->data[i]));
+          new (new_data + i) T(GLib::steal(control->data[i]));
         }
       } catch (...) {
         for (uint j = 0; j < i; j++) {
@@ -60,7 +61,7 @@ public:
 
   explicit Array(uint reserved) {
     control = new Control();
-    
+
     if (reserved) {
       maybe_expand(reserved);
     }
@@ -159,7 +160,7 @@ public:
     maybe_expand(length);
 
     for (uint i = control->len; i > 0; i--) {
-      new (control->data + i + length - 1) T(steal(control->data[i - 1]));
+      new (control->data + i + length - 1) T(GLib::steal(control->data[i - 1]));
       control->data[i - 1].~T();
     }
 
@@ -179,7 +180,7 @@ public:
     maybe_expand(length);
 
     for (uint i = control->len; i > index; i--) {
-      new (control->data + i + length - 1) T(steal(control->data[i - 1]));
+      new (control->data + i + length - 1) T(GLib::steal(control->data[i - 1]));
       control->data[i - 1].~T();
     }
 
@@ -214,7 +215,7 @@ public:
     }
 
     for (uint i = index + length; i < control->len; i++) {
-      new (control->data + i - length) T(steal(control->data[i]));
+      new (control->data + i - length) T(GLib::steal(control->data[i]));
       control->data[i].~T();
     }
     control->len -= length;
