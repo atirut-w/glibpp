@@ -130,6 +130,12 @@ public:
     return data;
   }
 
+  Array copy() const {
+    Array new_array;
+    new_array.append_vals(control->data, control->len);
+    return new_array;
+  }
+
   Array &append_val(const T &val) { return append_vals(&val, 1); }
 
   Array &append_vals(const T *vals, uint length) {
