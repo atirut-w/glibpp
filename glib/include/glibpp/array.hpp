@@ -105,6 +105,16 @@ public:
 
   size len() const { return control->len; }
 
+  T *steal(size &len) {
+    T *data = control->data;
+    len = control->len;
+
+    control->data = nullptr;
+    control->len = 0;
+    control->capacity = 0;
+    return data;
+  }
+
   Array &append_val(const T &val) { return append_vals(&val, 1); }
 
   Array &append_vals(const T *vals, uint length) {
