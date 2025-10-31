@@ -20,7 +20,7 @@ struct String {
   
   ~String();
 
-  // TODO: Free to bytes
+  // TODO: Steal and free to bytes
 
   bool equal(const String &other) const;
   String &assign(const char *rval);
@@ -54,10 +54,14 @@ struct String {
   void printf(const char *format, ...);
   void append_vprintf(const char *format, va_list args);
   void append_printf(const char *format, ...);
+  
+  // TODO: Append URI escaped
 
 private:
   void expand(size len);
   void maybe_expand(size len);
 };
+
+// TODO: String hash specialization
 
 } // namespace GLib

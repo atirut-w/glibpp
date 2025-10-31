@@ -73,6 +73,49 @@ String::~String() {
   delete[] str;
 }
 
+bool String::equal(const String &other) const {
+  size i = other.len;
+  if (i != other.len) {
+    return false;
+  }
+  
+  char *p = str;
+  char *q = other.str;
+
+  while (i) {
+    if (*p != *q) {
+      return false;
+    }
+    p++;
+    q++;
+    i--;
+  }
+
+  return true;
+}
+
+String &String::assign(const char *rval) {
+  truncate(0);
+  return append(rval);
+}
+
+String &String::truncate(size new_len) {
+  len = new_len < len ? new_len : len;
+  str[len] = '\0';
+  return *this;
+}
+
+String &String::set_size(size new_len) {
+  if (new_len > allocated_len) {
+    maybe_expand(new_len - len);
+  }
+
+  len = new_len;
+  str[len] = '\0';
+
+  return *this;
+}
+
 String &String::insert_len(ssize pos, const char *val, ssize val_len) {
   size ulen, upos;
 
@@ -130,8 +173,134 @@ String &String::insert_len(ssize pos, const char *val, ssize val_len) {
   return *this;
 }
 
+String &String::append(const char *val) {
+  return insert_len(-1, val, -1);
+}
+
 String &String::append_len(const char *val, ssize val_len) {
   return insert_len(-1, val, val_len);
+}
+
+String &String::append_c(char c) {
+  return insert_c(-1, c);
+}
+
+String &String::prepend(const char *val) {
+  return insert_len(0, val, -1);
+}
+
+String &String::prepend_c(char c) {
+  return insert_c(0, c);
+}
+
+String &String::prepend_len(const char *val, ssize val_len) {
+  return insert_len(0, val, val_len);
+}
+
+String &String::insert(ssize pos, const char *val) {
+  return insert_len(pos, val, -1);
+}
+
+String &String::insert_c(ssize pos, char c) {
+  maybe_expand(1);
+
+  size upos;
+  if (pos < 0) {
+    upos = len;
+  } else {
+    upos = static_cast<size>(pos);
+  }
+
+  if (upos < len) {
+    memmove(str + upos + 1, str + upos, len - upos);
+  }
+  str[upos] = c;
+  len++;
+  str[len] = '\0';
+
+  return *this;
+}
+
+String &String::overwrite(ssize pos, const char *val) {
+  return overwrite_len(pos, val, strlen(val));
+}
+
+String &String::overwrite_len(ssize pos, const char *val, ssize val_len) {
+  if (!len) {
+    return *this;
+  }
+
+  size ulen, end;
+  if (val_len < 0) {
+    ulen = strlen(val);
+  } else {
+    ulen = static_cast<size>(val_len);
+  }
+  end = static_cast<size>(pos) + ulen;
+
+  if (end > len) {
+    maybe_expand(end - len);
+  }
+
+  memcpy(str + static_cast<size>(pos), val, ulen);
+
+  if (end > len) {
+    str[len] = '\0';
+    len = end;
+  }
+
+  return *this;
+}
+
+String &String::erase(ssize pos, ssize len) {
+  size ulen, upos;
+  upos = static_cast<size>(pos);
+
+  if (len < 0) {
+    ulen = this->len - upos;
+  } else {
+    ulen = static_cast<size>(len);
+
+    if (!(upos + ulen <= this->len)) {
+      return *this;
+    }
+
+    if (upos + ulen < this->len) {
+      memmove(str + upos, str + upos + ulen, this->len - (upos + ulen));
+    }
+  }
+
+  this->len -= ulen;
+  str[this->len] = '\0';
+  return *this;
+}
+
+uint String::replace(const char *find, const char *replace, uint limit) {
+  return 0; // TODO: implement
+}
+
+String &String::ascii_down() {
+  return *this; // TODO: implement
+}
+
+String &String::ascii_up() {
+  return *this; // TODO: implement
+}
+
+void String::vprintf(const char *format, va_list args) {
+  return; // TODO: implement
+}
+
+void String::printf(const char *format, ...) {
+  return; // TODO: implement
+}
+
+void String::append_vprintf(const char *format, va_list args) {
+  return; // TODO: implement
+}
+
+void String::append_printf(const char *format, ...) {
+  return; // TODO: implement
 }
 
 void String::expand(size len) {
