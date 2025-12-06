@@ -1,2 +1,4 @@
-add_library(glibpp INTERFACE)
-target_include_directories(glibpp INTERFACE include)
+add_library(glibpp
+    src/bytes.cpp
+)
+target_include_directories(glibpp PUBLIC include)
