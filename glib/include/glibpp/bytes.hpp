@@ -33,6 +33,9 @@ public:
   gsize get_size() const {
     return control ? control->size : 0;
   }
+
+  // TODO: Unref to raw data & ByteArray
+  // TODO: g_bytes_get_region
 };
 
 } // namespace GLib
