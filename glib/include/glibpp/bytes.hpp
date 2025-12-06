@@ -25,6 +25,14 @@ public:
   Bytes &operator=(const Bytes &other);
   Bytes(Bytes &&other) noexcept;
   Bytes &operator=(Bytes &&other) noexcept;
+
+  const void *get_data() const {
+    return control ? control->data : nullptr;
+  }
+
+  gsize get_size() const {
+    return control ? control->size : 0;
+  }
 };
 
 } // namespace GLib
